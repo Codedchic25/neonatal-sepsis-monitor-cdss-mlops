@@ -1,0 +1,397 @@
+# 🩺 Sepsis Monitor AI
+## Neonatal Clinical Decision Support System (CDSS), Applied AI, LLM Security & MLOps Platform
+
+<p align="center">
+![Python](https://shields.io)
+![Streamlit](https://shields.io)
+![SQLAlchemy](https://shields.io)
+![Alembic](https://shields.io)
+![Docker](https://shields.io)
+![Pytest](https://shields.io)
+![Promptfoo](https://shields.io)
+![AI Security](https://shields.io)
+![LLM Evaluation](https://shields.io)
+![MLOps](https://shields.io)
+![License](https://shields.io)
+</p>
+
+---
+
+## 📌 Table of Contents
+* [🚀 Project Overview](#-project-overview)
+* [🎯 Why This Project Matters](#-why-this-project-matters)
+* [🏗️ System Architecture](#️-system-architecture)
+* [🔬 Engineering Philosophy](#-engineering-philosophy)
+* [🌟 Engineering Highlights](#-engineering-highlights)
+* [🏆 Recruiter Snapshot](#-recruiter-snapshot)
+* [1. 📌 Executive Overview](#1-📌-executive-overview)
+* [2. 🔬 Bio-Mathematical Modeling & Simulation Engine](#2-🔬-bio-mathematical-modeling--simulation-engine)
+* [3. 🩺 Clinical Decision Support System (CDSS)](#3-🩺-clinical-decision-support-system-cdss)
+* [4. 🤖 LLM Analysis Engine & Structured Output Contracts](#4-🤖-llm-analysis-engine--structured-output-contracts)
+* [5. 🛡️ Promptfoo Evaluation Framework & AI Security Validation](#5-🛡️-promptfoo-evaluation-framework--ai-security-validation)
+* [6. 🗂️ Project Structure & Engineering Components](#6-🗂️-project-structure--engineering-components)
+* [7. 🧪 Testing Strategy, Coverage Reporting & Quality Gates](#7-🧪-testing-strategy-coverage-reporting--quality-gates)
+* [8. 🗄️ Database Architecture & Infrastructure Portability](#8-🗄️-database-architecture--infrastructure-portability)
+* [9. 🚀 Portfolio Positioning, ATS Skills Matrix, Future Roadmap & Recruiter Summary](#9-🚀-portfolio-positioning-ats-skills-matrix-future-roadmap--recruiter-summary)
+* [⚠️ Clinical Disclaimer](#️-clinical-disclaimer)
+
+---
+
+## 🚀 Project Overview
+Sepsis Monitor AI is a neonatal clinical decision-support and telemetry simulation platform that combines:
+- deterministic clinical decision logic;
+- biomedical modeling;
+- Generative AI integration;
+- LLM security evaluation;
+- prompt-injection defense;
+- automated testing;
+- database migrations;
+- multilingual support;
+- PDF reporting;
+- notification workflows;
+- Docker deployment.
+
+The project demonstrates how safety-oriented clinical software can integrate modern AI systems while preserving deterministic controls around critical decision pathways.
+
+---
+
+## 🎯 Why This Project Matters
+Modern AI applications often rely excessively on LLM-generated output. In safety-critical environments such as healthcare, this approach introduces significant risks. Sepsis Monitor AI demonstrates a different engineering philosophy:
+
+### Deterministic Logic First
+Critical application behavior remains governed by explicit clinical thresholds, deterministic processing rules, structured validation layers, controlled medication calculations, and reproducible evaluation pipelines.
+
+### AI as an Assisted Layer
+The LLM functions as a clinical-analysis component, a narrative generation engine, and an interpretation assistant, rather than as the sole source of clinical decision making.
+
+---
+
+# 🏗️ System Architecture
+
+```mermaid
+flowchart TD
+A[Streamlit Dashboard] --> B[Clinical Processing Layer]
+B --> C[Telemetry Engine]
+B --> D[Biomarker Engine]
+B --> E[AKI State Engine]
+B --> F[Medication Calculator]
+C --> G[Security Guardrails]
+D --> G
+E --> G
+F --> G
+G --> H[Prompt Injection Detection]
+G --> I[Input Validation]
+G --> J[Output Validation]
+H --> K[Groq / Llama LLM]
+I --> K
+J --> K
+K --> L[Post-Inference Validation]
+L --> M[Clinical Report]
+L --> N[Medication Section]
+L --> O[FCC Assessment]
+M --> P[PDF Generator]
+N --> P
+O --> P
+M --> Q[Notification Workflow]
+B --> R[SQLAlchemy ORM]
+R --> S[SQLite / PostgreSQL]
+R --> T[Alembic Migrations]
+U[Promptfoo Evaluation] --> K
+V[Pytest Regression Suite] --> B
+W[Docker Deployment] --> A
+```
+
+---
+
+# 🔬 Engineering Philosophy
+The platform follows a strict hybrid architecture: `Deterministic Clinical Logic` + `Secure AI-Assisted Analysis` + `Automated Evaluation` + `Prompt-Injection Defense` + `Version-Controlled Data Architecture` + `Containerized Deployment`. This design enables transparent decision pathways, reproducible validation, and safety-oriented software engineering.
+
+---
+
+# 🌟 Engineering Highlights
+* **Applied AI**: Generative AI Integration, Clinical Narrative Generation, Structured LLM Output Validation, Adversarial Prompt Testing, AI Safety Evaluation, Prompt Engineering.
+* **Backend Engineering**: Python, SQLAlchemy ORM, Alembic Migrations, SQLite, PostgreSQL-ready Architecture, Service-Oriented Design.
+* **AI Security**: Prompt-Injection Defense, Guardrail Enforcement, Output Validation, Security Boundary Separation, Adversarial Evaluation.
+* **MLOps & Quality Engineering**: Automated Testing, Promptfoo Evaluation, Regression Validation, CI/CD Ready, Dockerized Deployment, Version-Controlled Schema Management.
+
+---
+
+# 🏆 Recruiter Snapshot
+This project demonstrates practical experience with Applied AI Engineering, Python Backend Development, AI Safety Engineering, LLM Security, Database Architecture, MLOps Principles, Docker Deployment, Automated Testing, and Clinical-Domain Software Design.
+
+### Relevant Roles
+- Applied AI Engineer / Generative AI Engineer / LLM Engineer
+- AI/ML Engineer
+- Python Backend Developer / Backend Engineer
+- Data Engineer / AI Software Engineer
+
+---
+
+# 1. 📌 Executive Overview
+Sepsis Monitor AI is a simulated neonatal Clinical Decision Support System (CDSS) environment that combines software engineering, healthcare-domain modeling, AI safety practices, and modern deployment workflows.
+
+The primary engineering objective is to demonstrate a production-oriented approach to AI-assisted clinical software where deterministic rules remain explicit, AI output is constrained and validated, adversarial inputs are tested, database changes are version controlled, and deployment remains containerizable and portable.
+
+---
+
+# 2. 🔬 Bio-Mathematical Modeling & Simulation Engine
+
+The platform incorporates first-order exponential decay models to simulate biomarker clearance dynamics. Instead of treating biomarker values as fixed inputs, the simulation continuously models how inflammatory markers behave over time:
+```text
+Biomarker(t) = Biomarker₀ × e^(-kt)
+```
+Where `Biomarker₀` is the initial value, `k` is the clearance coefficient, and `t` is the elapsed time. The clearance coefficient dynamically changes according to the selected renal state.
+
+### 🧠 Renal-State Modeling
+Renal function plays a critical role in biomarker clearance. To demonstrate this relationship, the platform includes configurable renal-state simulations:
+* **✅ Normal Baseline**: Represents normal physiological clearance and standard biomarker elimination behavior.
+* **⚠️ Mild AKI**: Represents mild Acute Kidney Injury. Configured with a `+25% Biomarker Half-Life Extension`, leading to delayed normalization.
+* **🚨 Severe AKI / Anuria (Retention State)**: Represents critical renal dysfunction where standard drug clearance paths are compromised. The Individualized Pharmaceutical Calculation Engine applies a strict toxicity safeguard. When "Severe AKI" or "Anuria" is detected, the system overrides standard single-daily dosing and flags an **Adjusted Interval Protocol**, mandating extending the Gentamicin administration window to **36–48 hours** to prevent accumulation.
+
+### 💊 Individualized Pharmaceutical Calculation Engine
+The platform includes a deterministic medication-calculation module executed entirely outside the LLM environment to ensure reproducibility and auditability. Medication dosing is dynamically calculated according to neonatal weight (0.50 kg → 6.00 kg):
+* **Ampicillin Calculation Model**: Configured dosage of `100 mg/kg/day divided every 12 hours`.
+* **Gentamicin Calculation Model**: Configured dosage of `4 mg/kg/day single daily dose` (subject to the severe AKI interval extension layer).
+
+---
+
+# 3. 🩺 Clinical Decision Support System (CDSS)
+
+The CDSS layer is responsible for telemetry interpretation, biomarker assessment, renal-state evaluation, medication pathway selection, risk-state classification, and supportive-care recommendations.
+
+### 🟢 System Stability Protocol (UI Dashboard Thresholds)
+The Streamlit dashboard computes the active system stability status (`system_is_stable`) through explicit clinical telemetry thresholds evaluated in the application layer. A patient is classified as **Stable** (displaying a success indicator) when:
+* Temperature is under control: `vitals_temp < 38.5 °C`
+* Heart Rate is within non-compensatory limits: `vitals_hr < 160 bpm`
+* Inflammatory response is under the acute threshold: `vitals_crp < 15.0 mg/L`
+
+If any of these conditions are violated, the dashboard instantly triggers a **CRITICAL ALERT** workflow, dispatches an emergency notification (via Twilio), and activates high-risk tracking.
+
+### 👥 Clinical Role-Based Access Control (RBAC)
+The platform simulates an application-level Role-Based Access Control system to restrict medical views based on clinical hierarchy. The interface maps capabilities dynamically to the following roles:
+
+* **Chief of Department / Sef de Sectie**: Unlocks full simulation access, including extreme anuria/fluid retention tracing ("Severe AKI / Anuria") and the automated MLOps Validation Form (live Promptfoo execution and cache sanitization).
+* **Neonatologist Resident**: Granted access to standard monitoring plus intermediate workflows including "Mild AKI" tracking and medication pathway reviews.
+* **NICU Senior Nurse**: Restricted strictly to baseline routine monitoring and standard clinical workflows ("Normal Baseline / Functie Normala"). Advanced AKI metrics and MLOps tools are hidden.
+
+### 📊 Clinical Decision Pathways (Deterministic Rules)
+* **Protective Homeostasis Protocol**: Triggered when `PCT < 0.5 ng/mL AND CRP < 5.0 mg/L AND Renal Status = Normal`. Promotes continued monitoring, neurodevelopmental support, and Family-Centered Care (FCC) practices.
+* **Hyperinflammatory Escalation Protocol**: Triggered when `PCT = 0.5 – 2.0 ng/mL AND/OR CRP = 5.0 – 10.0 mg/L AND Renal Status = Mild AKI`. Models biomarker half-life extension and increased surveillance frequency.
+* **Critical Sepsis Shock Protocol**: Triggered when `PCT > 2.0 ng/mL OR CRP > 10.0 mg/L OR Renal Status = Severe AKI`. Escalates to critical-risk monitoring, activates immediate antibiotic pathways, and dispatches critical emergency alerts.
+
+---
+
+# 📸 Application Interface & Platform Visuals (30 Screenshots)
+
+The system dashboard and telemetry simulation suite are mapped across five core operational matrices, fully capturing edge-case behaviors, AI security sandboxing, and relational persistence tracking.
+
+---
+
+### 🏥 Core Telemetry Dashboard & Vital Signs Monitoring
+![01_dashboard_vitals](assets/images/01_dashboard_vitals.png)
+*1. Real-time neonatal telemetry monitoring interface tracking heart rate, oxygen saturation, blood pressure, core temperature, dynamic biomarker status, and active automated system risk assessment.*
+
+![02_dose_calculation_curves](assets/images/02_dose_calculation_curves.png)
+*2. Deterministic pharmaceutical calculation console displaying dynamic dosing adjustments and elimination prediction models for Ampicillin and Gentamicin based on infant weight and renal constraints.*
+
+![03_music_therapy_mlops](assets/images/03_music_therapy_mlops.png)
+*3. Developmental support integration pane alongside live MLOps health monitoring metrics and real-time analytical event dispatch logs.*
+
+---
+
+### 🤖 LLM Inference, Parsing & Multilingual Extraction Logs
+![04_clinical_analysis_report](assets/images/04_clinical_analysis_report.png)
+*4. LLM-assisted structured interpretation block rendering contextual text outputs under strict deterministic application boundaries.*
+
+![05_medication_scheme](assets/images/05_medication_scheme.png)
+*5. Validated language-specific explanation module detailing active clinical schemes and security-cleared dosage instructions.*
+
+![06_fcc_evaluation](assets/images/06_fcc_evaluation.png)
+*6. Dedicated reporting zone tracking parent involvement, skin-to-skin touch validation, and automated sensory intervention recommendations.*
+
+![07_vscode_ide_setup](assets/images/07_vscode_ide_setup.png)
+*7. Production development layout demonstrating localized virtual environments, automated testing suites, and schema control configurations.*
+
+---
+
+### 🔒 Cyber Sanbox, Prompt-Injection Mitigation & Defensive Testing
+![08_cyber_alert_toast](assets/images/08_cyber_alert_toast.png)
+*8. Live demonstration of the input interception layer triggering a UI security flag upon detecting a malicious text injection vector.*
+
+![09_cyber_sandbox_sidebar](assets/images/09_cyber_sandbox_sidebar.png)
+*9. Isolated playground panel utilized by quality engineers to stress-test prompt resilience against boundary bypass maneuvers.*
+
+![10_app_code_payload_injection](assets/images/10_app_code_payload_injection.png)
+*10. Simulated adversarial environment rendering hostile instruction chains successfully quarantined by the security layer.*
+
+![11_telemetry_critical_alert](assets/images/11_telemetry_critical_alert.png)
+*11. High-severity emergency alert broadcast console instantly triggered when vital thresholds cross non-compensatory limits.*
+
+---
+
+### 📈 Relational Metrics, Trend Analysis & Post-Inference Extraction
+![12_sqlite_clearance_curve](assets/images/12_sqlite_clearance_curve.png)
+*12. Mathematical visualization of inflammatory marker reduction trends and decay tracking pulled directly from the SQLite analytics database.*
+
+![13_ai_clinical_analysis](assets/images/13_ai_clinical_analysis.png)
+*13. Detailed tracking of raw LLM outputs showing successful extraction and parsing of the `<RAPORT>` tag under deterministic multi-language routing constraints.*
+
+![14_ai_medication_scheme](assets/images/14_ai_medication_scheme.png)
+*14. Granular presentation of the parsed `<MEDICATIE>` block, demonstrating absolute synchronization with the offline weight-based calculation numbers.*
+
+![15_ai_fcc_evaluation](assets/images/15_ai_fcc_evaluation.png)
+*15. Automated parsing validation for the `<FCC>` (Family-Centered Care) tag, verifying the presence of personalized parent-bonding milestones.*
+
+![16_post_injection_recovery](assets/images/16_post_injection_recovery.png)
+*16. System telemetry view capturing patient parameter realignment and baseline stabilization immediately following localized clinical interventions.*
+
+---
+
+### 🚨 Critical Sepsis Shock Scenarios & Twilio Escalations
+![17_critical_alert_vitals](assets/images/17_critical_alert_vitals.png)
+*17. Severe deterioration telemetry panel showcasing compensatory physiological markers used to validate high-risk decision paths.*
+
+![18_ai_analysis_critical_tab](assets/images/18_ai_analysis_critical_tab.png)
+*18. Critical escalation view within the `<RAPORT>` pane, analyzing high-risk sepsis trajectories during active bio-mathematical stress tests.*
+
+![19_ai_medication_critical_tab](assets/images/19_ai_medication_critical_tab.png)
+*19. Emergency antibiotic workflow layout indicating the immediate mandatory deployment of intravenous Ampicillin and Gentamicin schemes.*
+
+![20_ai_fcc_critical_tab](assets/images/20_ai_fcc_critical_tab.png)
+*20. Targeted clinical recommendations focusing on maternal-infant stabilization and critical care environment normalization panels.*
+
+![21_injection_dispatched_toast](assets/images/21_injection_dispatched_toast.png)
+*21. Automated alert framework rendering real-time push events and emergency text dispatches verified via the Twilio telemetry subsystem.*
+
+![22_sqlite_clearance_curve_drop](assets/images/22_sqlite_clearance_curve_drop.png)
+*22. Longitudinal visualization pulled from the relational layer, capturing the steep drop in toxic inflammatory load over subsequent monitoring ticks.*
+
+![23_post_injection_stable_tab](assets/images/23_post_injection_stable_tab.png)
+*23. Operational status dashboard confirming successful multi-system stabilization and safe exit from the sepsis risk classification window.*
+
+![24_pdf_report_compiled_preview](assets/images/24_pdf_report_compiled_preview.png)
+*24. Official medical record artifact dynamically generated via ReportLab, compiling telemetry tracking sheets, calculation logs, and security-validated summaries.*
+
+---
+
+### 🩺 Renal Anuria Overrides, Toxicity Safeguards & System Verification
+![25_renal_severe_aki_dashboard](assets/images/25_renal_severe_aki_dashboard.png)
+*25. Chief of Department interface rendering extreme fluid retention mapping, a 60% biomarker clearance collapse, and the activation of the Adjusted Interval Protocol.*
+
+![26_renal_clearance_curve_history](assets/images/26_renal_clearance_curve_history.png)
+*26. Historical graph documenting long-term biomarker accumulation factors during prolonged retention state modeling.*
+
+![27_ai_analysis_severe_aki_tab](assets/images/27_ai_analysis_severe_aki_tab.png)
+*27. AI analysis tab displaying structural context warnings and diagnostic narrative assistance during simulated severe anuria.*
+
+![28_ai_medication_guardrail_aki_tab](assets/images/28_ai_medication_guardrail_aki_tab.png)
+*28. Granular validation screen showing the deterministic engine overriding the LLM and locking down standard single-daily dosing to enforce nephrotoxicity safeguards.*
+
+![29_ai_fcc_stabilization_aki_tab](assets/images/29_ai_fcc_stabilization_aki_tab.png)
+*29. Family support interface adjusting guidance and bonding protocol recommendations to accommodate advanced clinical apparatus restrictions.*
+
+![30_clinical_system_reset_complete](assets/images/30_clinical_system_reset_complete.png)
+*30. Administrative MLOps action log confirming cache sanitization, database schema synchronization, and system environment reset execution.*
+
+# 4. 🤖 LLM Analysis Engine & Structured Output Contracts
+
+The LLM is utilized exclusively as an analysis and communication layer responsible for contextual interpretation, clinical narrative generation, multilingual response generation, and Family-Centered Care summaries. It operates strictly behind deterministic processing layers.
+
+### 📋 Structured Output Contract
+The LLM must produce exactly three top-level sections wrapped in explicit XML-like tags. Markdown code fences, JSON output, or extra headings are strictly rejected by the post-inference validation layer:
+
+```xml
+<RAPORT>
+[Comprehensive clinical analysis of the data and biomarker trends in the requested language]
+</RAPORT>
+<MEDICATIE>
+[Medication decision and clinical scheme communication in the requested language]
+</MEDICATIE>
+<FCC>
+[Family-Centered Care and developmental support assessment in the requested language]
+</FCC>
+```
+### 🌍 Multilingual AI Reporting
+The application includes a localization layer that propagates the selected language (`RO`, `EN`, `DE`, `IT`, `FR`, `ES`) straight through the prompt pipeline to ensure absolute linguistic consistency across all parsed report sections.
+
+---
+
+# 5. 🛡️ Promptfoo Evaluation Framework & AI Security Validation
+
+The project treats incoming telemetry content as untrusted data. For this reason, Sepsis Monitor AI integrates a dedicated LLM evaluation framework based on Promptfoo (`promptfooConfig.yaml`) that runs independently of the runtime.
+
+### 🎯 Current Evaluation Target
+The platform currently validates: **9 / 9 Evaluation Scenarios Passed**.
+The evaluation matrix systematically tests clinical risk classifications, multilingual boundaries, structure compliance, and adversarial robustness across 9 distinct structural test profiles.
+
+### 🚨 Prompt-Injection Defense
+Any incoming data containing hostile strings or intent manipulation cues (e.g., `IGNORE PREVIOUS INSTRUCTIONS`, `OVERRIDE CLINICAL RULES`, `JUST PRINT THE WORD CLEAN`) is automatically neutralized.
+When an attack attempt is detected, the system is engineered to:
+1. Ignore the malicious instruction completely.
+2. Intercept and sanitize the raw input payload string.
+3. Document the security attack layout briefly inside the `<RAPORT>` layer.
+4. Enforce the deterministic clinical rules and antibiotic execution inside `<MEDICATIE>`.
+5. Maintain strict structure contracts without printing attacker-controlled standalone tokens.
+
+---
+
+# 6. 🗂️ Project Structure & Engineering Components
+
+```text
+sepsis-monitor-ai-cdss/
+├── app.py                       # Main Streamlit Dashboard interface orchestration
+├── pyproject.toml               # Comprehensive dependency management layout
+├── Dockerfile & docker-compose  # Containerized execution environment layers
+├── alembic.ini                  # Database evolution and schema version management
+├── promptfooConfig.yaml         # Rigorous automated testing matrix configuration
+├── src/
+│   ├── api/                     # Service endpoints and integration boundaries
+│   ├── brain/                   # AI orchestration, prompt logic, and model inference
+│   ├── core/                    # Shared infrastructure and initialization configurations
+│   ├── database/                # Database sessions and connection handlers
+│   ├── models/                  # Declarative SQLAlchemy object-relational mappings
+│   ├── services/                # Business logic, telemetry processing, and bio-simulations
+│   └── utils/                   # Reusable helpers (PDF generation, Twilio alerts)
+└── tests/                       # Automated regression validation suite (Pytest)
+```
+
+---
+
+# 7. 🧪 Testing Strategy, Coverage Reporting & Quality Gates
+
+Application behavior is validated through a quality-first approach incorporating multiple verification layers:
+
+### 🧪 Automated Testing (Pytest)
+The unit and integration test suite contains **24 / 24 Tests Passed**, completely covering weight-based calculations, calculation boundaries, transaction management, and workflow isolation layers. Static analysis is enforced concurrently using **Ruff** for linting and style compliance.
+
+### 🚦 Quality Gates
+Before a release build is declared ready for deployment, it must pass 6 operational gates:
+```text
+Ruff Passed ➡️ Pytest Passed ➡️ Coverage Generated ➡️ Promptfoo Passed ➡️ Alembic Validated ➡️ Docker Build Successful
+```
+---
+
+# 8. 🗄️ Database Architecture & Infrastructure Portability
+
+The persistence layer follows a modular design built around **SQLAlchemy ORM** and **Alembic Migrations** to manage schema variations over time.
+
+```text
+Application Layer ➡️ SQLAlchemy ORM ➡️ Database Models ➡️ SQLite (Dev) / PostgreSQL (Prod)
+```
+* **Development Workflows**: Uses a zero-configuration **SQLite** instance (`sepsis_neonatal.db`) for isolated testing and fast execution pipelines.
+* **Production Deployment**: Completely database-agnostic. The architecture is PostgreSQL-ready, enabling seamless production scaling by adjusting environmental variables without editing core domain logic.
+---
+
+# 9. 🚀 Portfolio Positioning, ATS Skills Matrix, Future Roadmap & Recruiter Summary
+
+### 📊 ATS Skills Matrix
+* **Programming Languages**: Python (3.12).
+* **AI & Machine Learning**: Applied AI, Generative AI, LLMs, Prompt Engineering, AI Safety, LLM Security, Prompt Injection Defense, Promptfoo, Structured Output Contracts.
+* **Backend & Databases**: Python Backend Development, SQLAlchemy ORM, Relational Database Design, SQLite, PostgreSQL Readiness, Alembic Migrations.
+* **DevOps & MLOps**: Docker, Docker Compose, GitHub Actions, CI/CD Pipelines, Automated Testing (Pytest), Coverage Reporting, Static Analysis (Ruff).
+* **Healthcare Technology**: Clinical Decision Support Systems (CDSS), Biomedical Simulation, Telemetry Monitoring, Healthcare Analytics, Clinical Reporting.
+
+---
+
+# ⚠️ Clinical Disclaimer
+Sepsis Monitor AI is an educational, engineering, and research-oriented software project. It is NOT a certified medical device, a diagnostic system, or a substitute for professional clinical judgment. Any clinical scenarios, medication pathways, or neonatal workflows presented exist solely within the scope of a simulated educational portfolio environment.
