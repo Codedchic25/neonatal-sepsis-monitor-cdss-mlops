@@ -30,6 +30,293 @@ The platform provides a simulated neonatal Clinical Decision Support System (CDS
 - PDF clinical-report generation;
 - Docker deployment.
 
+## 📸 Application Screenshots
+
+Sepsis Monitor AI includes a visual set of dashboards, clinical workflows, AI-assisted analysis views, security scenarios, renal-state simulations, and evaluation artifacts.
+
+### 🖥️ Clinical Monitoring Dashboard
+
+![Sepsis Monitor AI — Neonatal Telemetry Dashboard](assets/images/01_dashboard_vitals.png)
+
+**Neonatal telemetry dashboard** — simulated vital signs, clinical indicators, and monitoring state.
+
+---
+
+### 💊 Dose Calculation & Clinical Modeling
+
+![Dose Calculation Curves](assets/images/02_dose_calculation_curves.png)
+
+**Dose calculation and modeling** — weight-based medication calculations and simulated clinical trajectories.
+
+---
+
+### 🎵 Music Therapy & MLOps
+
+![Music Therapy and MLOps](assets/images/03_music_therapy_mlops.png)
+
+**Supportive-care workflow and MLOps integration** within the simulated clinical environment.
+
+---
+
+### 📄 AI Clinical Analysis Report
+
+![AI Clinical Analysis Report](assets/images/04_clinical_analysis_report.png)
+
+**Structured AI-assisted clinical analysis** generated within the configured output contract.
+
+---
+
+### 💉 Medication Decision Support
+
+![Medication Scheme](assets/images/05_medication_scheme.png)
+
+**Medication decision-support workflow** with deterministic clinical rules and simulated weight-based calculations.
+
+---
+
+### 👨‍👩‍👧 Family-Centered Care Evaluation
+
+![Family-Centered Care Evaluation](assets/images/06_fcc_evaluation.png)
+
+**Family-Centered Care (FCC) evaluation** as part of the structured AI-assisted assessment.
+
+---
+
+## 🛡️ LLM Security & Prompt-Injection Defense
+
+The application includes dedicated security scenarios for testing untrusted clinical input and simulated prompt-injection attempts.
+
+### 🚨 Cyber Security Alert
+
+![Cyber Security Alert](assets/images/08_cyber_alert_toast.png)
+
+**Prompt-injection security alert** triggered by the application security layer.
+
+---
+
+### 🛡️ Cyber Security Sandbox
+
+![Cyber Security Sandbox](assets/images/09_cyber_sandbox_sidebar.png)
+
+**Security sandbox interface** for controlled testing of adversarial inputs.
+
+---
+
+### 🧪 Payload Injection Test
+
+![Payload Injection Test](assets/images/10_app_code_payload_injection.png)
+
+**Simulated payload-injection scenario** used to validate the application's security boundary.
+
+---
+
+### 🔄 Post-Injection Recovery
+
+![Post Injection Recovery](assets/images/16_post_injection_recovery.png)
+
+**Post-injection recovery workflow** demonstrating continued operation after a detected adversarial input.
+
+---
+
+## 🚨 Critical Clinical Telemetry
+
+### ⚠️ Critical Alert
+
+![Critical Alert Vitals](assets/images/11_telemetry_critical_alert.png)
+
+**Critical telemetry state** displayed by the clinical monitoring interface.
+
+---
+
+### 📈 Critical Vital Signs
+
+![Critical Alert Vitals](assets/images/17_critical_alert_vitals.png)
+
+**Critical neonatal telemetry visualization** for the simulated escalation workflow.
+
+---
+
+## 🤖 AI-Assisted Clinical Decision Support
+
+### 🧠 AI Clinical Analysis
+
+![AI Clinical Analysis](assets/images/13_ai_clinical_analysis.png)
+
+**AI-assisted clinical analysis** based on the supplied simulated telemetry and configured deterministic evaluation rules.
+
+---
+
+### 💊 AI Medication Scheme
+
+![AI Medication Scheme](assets/images/14_ai_medication_scheme.png)
+
+**AI-assisted medication assessment** within the configured clinical decision-support workflow.
+
+---
+
+### 👨‍👩‍👧 AI Family-Centered Care Evaluation
+
+![AI FCC Evaluation](assets/images/15_ai_fcc_evaluation.png)
+
+**AI-assisted Family-Centered Care assessment** generated as part of the structured output contract.
+
+---
+
+## 🧬 Severe AKI / Anuria Simulation
+
+The project includes a dedicated simulated renal-complication workflow combining telemetry, biomarker behavior, clearance modeling, medication guardrails, and AI-assisted assessment.
+
+### 🩺 Severe AKI Dashboard
+
+![Severe AKI Dashboard](assets/images/25_renal_severe_aki_dashboard.png)
+
+**Severe AKI / Anuria clinical simulation dashboard.**
+
+---
+
+### 📉 Renal Clearance Curve
+
+![Renal Clearance Curve](assets/images/26_renal_clearance_curve_history.png)
+
+**Simulated renal clearance trajectory** showing the modeled impact of severe renal impairment.
+
+---
+
+### 🧠 AI Severe AKI Analysis
+
+![AI Severe AKI Analysis](assets/images/27_ai_analysis_severe_aki_tab.png)
+
+**AI-assisted assessment of the Severe AKI / Anuria scenario.**
+
+---
+
+### 🛡️ AI Medication Guardrail — Severe AKI
+
+![AI Medication Guardrail](assets/images/28_ai_medication_guardrail_aki_tab.png)
+
+**Medication guardrail evaluation** for the severe renal-complication scenario.
+
+---
+
+### 👨‍👩‍👧 AI FCC Stabilization
+
+![AI FCC Stabilization](assets/images/29_ai_fcc_stabilization_aki_tab.png)
+
+**Family-Centered Care stabilization assessment** within the Severe AKI workflow.
+
+---
+
+## 📊 Telemetry & Biomarker Modeling
+
+### 📈 SQLite Clearance Curve
+
+![SQLite Clearance Curve](assets/images/12_sqlite_clearance_curve.png)
+
+**Persisted telemetry and simulated biomarker clearance trajectory.**
+
+---
+
+### 📉 Clearance Curve After Injection Scenario
+
+![SQLite Clearance Curve Drop](assets/images/22_sqlite_clearance_curve_drop.png)
+
+**Clearance trajectory following the simulated clinical/security workflow.**
+
+---
+
+## 🔬 Clinical Workflow Recovery
+
+### 💉 Injection Dispatched
+
+![Injection Dispatched](assets/images/21_injection_dispatched_toast.png)
+
+**Medication workflow notification** following the configured clinical pathway.
+
+---
+
+### 🟢 Post-Injection Stable State
+
+![Post Injection Stable State](assets/images/23_post_injection_stable_tab.png)
+
+**Post-intervention stable-state visualization** within the simulated workflow.
+
+---
+
+## 📄 Clinical Reporting
+
+### 📑 PDF Clinical Report
+
+![PDF Clinical Report](assets/images/24_pdf_report_compiled_preview.png)
+
+**Generated clinical report preview** using the project's PDF reporting workflow.
+
+---
+
+## 🔄 Clinical System Reset
+
+![Clinical System Reset](assets/images/30_clinical_system_reset_complete.png)
+
+**Clinical system reset workflow** for reproducible simulation and testing.
+
+---
+
+## 🧪 Promptfoo LLM Evaluation
+
+The project includes a dedicated Promptfoo evaluation matrix for clinical behavior, structured output, medication-policy enforcement, multilingual behavior, and adversarial security scenarios.
+
+### 📊 Promptfoo Evaluation Report
+
+[📊 Open the Promptfoo HTML Evaluation Report](assets/images/promptfoo_report.html)
+
+The generated HTML report provides the detailed evaluation output and test results.
+
+---
+
+## 💻 Development Environment
+
+![VS Code Development Environment](assets/images/07_vscode_ide_setup.png)
+
+**Development environment** showing the Python project, testing, and application workflow.
+
+---
+
+## 📚 Complete Screenshot Index
+
+| # | Screenshot | Purpose |
+|---|---|---|
+| 01 | `01_dashboard_vitals.png` | Neonatal telemetry dashboard |
+| 02 | `02_dose_calculation_curves.png` | Dose calculation and clinical modeling |
+| 03 | `03_music_therapy_mlops.png` | Music Therapy and MLOps workflow |
+| 04 | `04_clinical_analysis_report.png` | Clinical analysis report |
+| 05 | `05_medication_scheme.png` | Medication decision-support workflow |
+| 06 | `06_fcc_evaluation.png` | Family-Centered Care evaluation |
+| 07 | `07_vscode_ide_setup.png` | Development environment |
+| 08 | `08_cyber_alert_toast.png` | Cyber-security alert |
+| 09 | `09_cyber_sandbox_sidebar.png` | Cyber-security sandbox |
+| 10 | `10_app_code_payload_injection.png` | Payload-injection test |
+| 11 | `11_telemetry_critical_alert.png` | Critical telemetry alert |
+| 12 | `12_sqlite_clearance_curve.png` | SQLite / clearance modeling |
+| 13 | `13_ai_clinical_analysis.png` | AI clinical analysis |
+| 14 | `14_ai_medication_scheme.png` | AI medication assessment |
+| 15 | `15_ai_fcc_evaluation.png` | AI FCC evaluation |
+| 16 | `16_post_injection_recovery.png` | Post-injection recovery |
+| 17 | `17_critical_alert_vitals.png` | Critical vital signs |
+| 18 | `18_ai_analysis_critical_tab.png` | AI critical-state analysis |
+| 19 | `19_ai_medication_critical_tab.png` | AI critical-state medication assessment |
+| 20 | `20_ai_fcc_critical_tab.png` | AI critical-state FCC assessment |
+| 21 | `21_injection_dispatched_toast.png` | Medication workflow notification |
+| 22 | `22_sqlite_clearance_curve_drop.png` | Clearance trajectory |
+| 23 | `23_post_injection_stable_tab.png` | Stable-state recovery |
+| 24 | `24_pdf_report_compiled_preview.png` | PDF clinical report |
+| 25 | `25_renal_severe_aki_dashboard.png` | Severe AKI / Anuria dashboard |
+| 26 | `26_renal_clearance_curve_history.png` | Renal clearance trajectory |
+| 27 | `27_ai_analysis_severe_aki_tab.png` | AI Severe AKI analysis |
+| 28 | `28_ai_medication_guardrail_aki_tab.png` | Severe AKI medication guardrail |
+| 29 | `29_ai_fcc_stabilization_aki_tab.png` | Severe AKI FCC stabilization |
+| 30 | `30_clinical_system_reset_complete.png` | Clinical system reset |
+| — | `promptfoo_report.html` | Promptfoo evaluation report |  
+  
+
 ## 🧠 Core Architectural Principle
 
 The system follows a **hybrid deterministic + generative AI architecture**.
