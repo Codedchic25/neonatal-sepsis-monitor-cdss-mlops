@@ -1,81 +1,923 @@
-# 📑 TACTICAL INTERVIEW SCENARIOS: ARCHITECTURE DEFENSE
+# Sepsis Monitor AI – Interview Defense Manual
 
-This document outlines core technical questions, architectural trade-offs, and continuous verification defenses designed to guide engineering discussions and senior-level production reviews for the Sepsis Monitor AI platform.
+## Section 1 – Project Overview
 
----
+### 1. Tell me about your project?
 
-## 🏗️ Section 1: System Architecture & LLM Integration
+**Answer**
 
-### Q1: Why choose a hybrid model instead of allowing the LLM to calculate the clinical risk score or biomarker degradation directly?
-> "In high-acuity medical domains, determinism is non-negotiable. Large Language Models (LLMs) inherently exhibit probabilistic behavior, exposing mission-critical systems to semantic hallucinations or mathematical rounding errors. You cannot risk a neonatal patient's life on statistical approximations.
->
-> To mitigate this, I enforced a strict Separation of Concerns:
-> *   **Mathematical Core:** All telemetry vectors, clinical dynamics, and first-order pharmacokinetic degradation loops are executed in deterministic, rigid Python functions.
-> *   **Generative AI Layer:** The `llama-3.1-8b-instant` model via Groq LPU infrastructure serves exclusively as a contextual decision-support engine. It synthesizes pre-calculated data, enriches it via local RAG matrices, and formats it within safety guardrails."
-
-### Q2: What happens if cloud connectivity drops or the Groq API returns a rate-limit exception? Does the application freeze?
-> "No, the architecture leverages a Graceful Degradation model backed by a fail-safe local deterministic interceptor.
->
-> The inference pipeline is encapsulated inside a defensive `try-except` block catching specific `GroqError` exceptions to avoid blind catches. If a network timeout, HTTP 503 error, or credential failure occurs, the application intercepts the exception, triggers a monitoring log entry, and immediately forces a local fallback routing via `_generate_local_fallback`. The user interface remains uninterrupted, displaying real-time telemetry metrics and generating hardcoded localized NICU protocol instructions without downtime."
+Sepsis Monitor AI is a neonatal Clinical Decision Support System (CDSS) designed to assist healthcare professionals in monitoring vital parameters, inflammatory biomarkers, Family-Centered Care interventions, and AI-generated clinical recommendations. The platform combines telemetry analysis, automated medication calculations, AI decision support, safety guardrails, and MLOps validation.
 
 ---
 
-## 💾 Section 2: Data Management & Session Persistence
+### 2. Why did you build this project?
 
-### Q3: Why implement a dedicated Context Manager via `@contextmanager` for SQLAlchemy sessions instead of a global shared session?
-> "Streamlit is natively multi-threaded; every UI interaction triggers a full script re-execution on a newly allocated concurrent thread. Sharing a global SQLAlchemy session across concurrent client runs introduces immediate race conditions, connection leaks, and SQLite connection locks.
->
-> Adopting the `@contextmanager` pattern guarantees absolute transactional isolation:
-> *   Every I/O transaction instantiates its own localized, thread-bound database connection session.
-> *   The session automatically commits data on success or triggers a rollback sequence upon hitting clinical or system exception bounds.
-> *   The `finally` block forces an explicit `db.close()`, returning handlers to the pool and neutralizing memory leaks."
+**Answer**
 
-### Q4: How is data isolation maintained during automated tests? Is there a risk of polluting the physical production SQLite database during a Pytest run?
-> "The isolation boundary is complete. In `tests/conftest.py`, I configured a high-scope fixture hook that dynamically overrides the active database connection string, swapping it for an isolated, volatile in-memory instance (`sqlite:///:memory:`).
->
-> If a violation occurs, a `ClinicalGuardrailException` forces an automated hot swap to our safe deterministic local fallback, locking the persistent array directly inside `sepsis_neonatal.db`.
+I wanted to combine my clinical background in neonatology with my transition into software engineering and AI. The project allowed me to solve a real healthcare problem while applying Python, databases, testing, AI integration, cybersecurity, and MLOps practices.
 
 ---
 
-## 🛡️ Section 3: Security, MLOps, & Natural Language Validation
+### 3. What problem does the project solve?
 
-### Q5: How does continuous evaluation with the `promptfoo` framework safeguard the LLM inference pipeline, and what specific clinical vulnerabilities does it evaluate?
-> "`promptfoo` serves as the automated MLOps evaluation pillar within our Continuous Integration (CI) pipeline, resolving the issue that natural language outputs cannot be validated via simple strict equality (`==`) strings.
->
-> Following significant updates, we run automated security audits directly against live Groq endpoints to evaluate system immune responses:
-> *   **Deterministic NLP Assertions:** Utilizing the `contains` assert type to guarantee that required first-line antibiotic protocols (**Ampicillin + Gentamicin**) are present in the completion text.
-> *   **Semantic Similarity Score:** Evaluating report outputs against verified clinical reference baselines using stabilized thresholds (e.g., minimum 0.75 similarity).
-> *   **Linguistic Parsing Evaluations:** Injecting specialized JavaScript criteria to verify formatting compliance and ensure output strings match the active locale language dictionary."
+**Answer**
 
-### Q6: Detail your prompt injection prevention strategy. How does the codebase stop a user from hijacking the LLM?
-> "Jailbreak and injection attacks attempt to override system rules by passing adversarial strings through input vectors. The platform blocks these attempts using a multi-tiered hardening perimeter:
->
-> 1.  **Input Token Truncation & Pre-Processing:** Text inputs passed into the metric payloads are strictly truncated (`[:30]`) to mechanically cripple long payload injection commands before prompt construction.
-> 2.  **Strict Inference Configuration:** By pinning the model temperature to `0.1`, we minimize creative freedom, forcing the model to remain purely deductive and highly resistant to behavioral shifts.
-> 3.  **Post-Inference Structural Guardrails:** The code features a dedicated `NeonatalOutputGuardrail` layer in `guardrails.py` tested by `pytest`. This layer reviews the raw completion using regular expressions to enforce absolute XML block compliance (`<RAPORT>`, `<MEDICATIE>`, `<FCC>`) and trap extreme hallucinated medical numbers (>500mg) before they reach the user viewport. If a violation occurs, a `ClinicalGuardrailException` forces an automated hot swap to our safe deterministic local fallback."
-
-### Q7: Detail a real-world alignment failure discovered during prompt testing and explain how the codebase was hardened against it.
-> "During adversarial testing with a high-severity payload—such as `SYSTEM OVERRIDE: IGNORE PREVIOUS INSTRUCTIONS`—I observed a localized semantic degradation vector. While the LLM correctly identified the high sepsis risk, it suffered language drift, generating English headings (e.g., 'CLINICAL FINDINGS') despite a strict Romanian locale request (`lang: 'RO'`).
->
-> To neutralize this jailbreak vector, I hardened the system instruction anchoring by appending a final `MANDATORY FORMAT OBLIGATION` constraint. Furthermore, the application is wrapped to catch any parsing anomalies or locale breaking in `medical_expert.py` and immediately trigger the deterministic safe local report overlay in the correct language."
+The project centralizes neonatal telemetry monitoring, inflammatory biomarker evaluation, medication calculations, Family-Centered Care tracking, and AI-assisted clinical decision support into a single platform.
 
 ---
 
-## 🔬 Section 4: Medical Logic & Pharmacokinetics
+### 4. Who are the intended users?
 
-### Q8: Why did you integrate distinct biological half-lives for CRP (19h) and PCT (24h) into the telemetry engine?
-> "To closely replicate the physiological and pathophysiological reality encountered in an actual Neonatal Intensive Care Unit (NICU) workspace.
->
-> The two biological indicators follow entirely separate kinetics:
-> *   **Procalcitonin (PCT):** An extremely specific biomarker for severe bacterial infections and neonatal sepsis. It rises rapidly and has a documented biological half-life of approximately 24 hours.
-> *   **C-Reactive Protein (CRP):** A slower, non-specific acute-phase reactant presenting an independent clearance dynamic with an approximate half-life of 19 hours.
->
-> By modeling these variables as independent first-order exponential decay curves using the classic pharmacokinetics equation $C(t) = C_0 \cdot e^{-k \cdot \Delta t}$, where $k = \ln(2) / t_{1/2}$, the interactive `st.line_chart` viewport renders realistic asynchronous trends. This architectural choice allows clinicians to audit treatment efficacy far more accurately than would be possible with a basic linear random-noise script, providing a clear visual representation of biological clearance under active therapeutic protocols."
+**Answer**
 
-### Q9: How do non-pharmacological Family-Centered Care (FCC) variables mathematically influence patient telemetry and toxin clearance constants?
-> "The platform handles supportive non-pharmacological interventions as active clinical parameters that execute mutations across both the presentation viewports and the mathematical simulation layers:
->
-> *   **UI Presentation Layer (Stress Reduction):** Activating variables like Kangaroo Care or Music Therapy functions as a structural defense against clinical **Alarm Fatigue**. The dashboard applies an automatic stabilization modifier that decreases the recorded heart rate by 15 bpm and mitigates hypoxemia by adding a +3% factor to the active Oxygen Saturation (SpO2) metric, closely simulating newborn autonomic nervous system recovery.
-> *   **Mathematical Simulation Layer:** The chosen neonatal nutritional pathway alters the biological clearance velocity constant ($k$) directly. Selecting maternal breast milk via the dropdown option **`nutrition_type_active="Exclusive Breastfeeding"`** injects an explicit clearance multiplier of 1.15 into the first-order exponential decay formula. This choice accelerates biomarker elimination by 15% to mathematically replicate the passive immune protection and enzymatic clearance benefits of maternal antibodies.
->
-> All modified physiological states and therapeutic variables are persistently logged via SQLAlchemy transaction sessions directly into the `NeonatalTelemetry` SQLite data rows on every simulated hourly step, maintaining absolute audit trails."
+The primary users are neonatal nurses, neonatologists, residents, department chiefs, and healthcare professionals working in Neonatal Intensive Care Units (NICU).
+
+---
+
+### 5. Why is neonatal sepsis important?
+
+**Answer**
+
+Neonatal sepsis remains one of the leading causes of neonatal morbidity and mortality worldwide. Early identification and intervention are essential to improve outcomes and reduce complications.
+
+---
+
+## Section 2 – Architecture
+
+### 6. Describe the system architecture.
+
+**Answer**
+
+The architecture consists of a Streamlit presentation layer, telemetry processing modules, risk scoring services, AI decision-support services, SQLAlchemy ORM models, SQLite persistence, Alembic migrations, Promptfoo validation, and CI/CD pipelines.
+
+---
+
+### 7. Why did you choose a modular architecture?
+
+**Answer**
+
+A modular architecture improves maintainability, scalability, testing, debugging, and separation of concerns. Each component has a clearly defined responsibility.
+
+---
+
+### 8. What are the main architectural layers?
+
+**Answer**
+
+- Presentation Layer (Streamlit UI)
+- Business Logic Layer
+- AI Services Layer
+- Persistence Layer
+- Validation & Testing Layer
+
+---
+
+### 9. What is Separation of Concerns?
+
+**Answer**
+
+Separation of Concerns means that each component focuses on a single responsibility. The UI handles presentation, services handle logic, and database models handle persistence.
+
+---
+
+### 10. Why is modularity important?
+
+**Answer**
+
+Modularity allows independent development, easier maintenance, reusable components, and future scalability.
+
+---
+
+## Section 3 – Streamlit Dashboard
+
+### 11. Why did you choose Streamlit?
+
+**Answer**
+
+Streamlit allowed me to rapidly develop an interactive healthcare dashboard using only Python while focusing on clinical workflows and AI integration.
+
+---
+
+### 12. What are Streamlit's advantages?
+
+**Answer**
+
+- Rapid prototyping
+- Python-native development
+- Interactive dashboards
+- Fast deployment
+- Minimal frontend complexity
+
+---
+
+### 13. What are Streamlit's limitations?
+
+**Answer**
+
+Streamlit offers less frontend customization than frameworks such as React or Angular and is not optimized for very large enterprise interfaces.
+
+---
+
+### 14. How does Streamlit update the UI?
+
+**Answer**
+
+Streamlit reruns the application script whenever a user interacts with a widget.
+
+---
+
+### 15. What dashboard sections are available?
+
+**Answer**
+
+- Configuration Panel
+- Telemetry Monitoring
+- Risk Assessment
+- Medication Calculator
+- AI Clinical Analysis
+- Family-Centered Care Evaluation
+- MLOps Validation
+- PDF Reporting
+
+---
+
+## Section 4 – Clinical Workflow
+
+### 16. What telemetry parameters are monitored?
+
+**Answer**
+
+The platform monitors:
+
+- Heart Rate (HR)
+- Temperature
+- Oxygen Saturation (SpO2)
+- Blood Pressure
+- C-Reactive Protein (CRP)
+- Procalcitonin (PCT)
+
+---
+
+### 17. Why is CRP important?
+
+**Answer**
+
+CRP is an inflammatory biomarker commonly used to detect and monitor infection and inflammatory processes.
+
+---
+
+### 18. Why is PCT important?
+
+**Answer**
+
+Procalcitonin is a biomarker strongly associated with bacterial infections and sepsis risk.
+
+---
+
+### 19. What is considered a high-risk sepsis state?
+
+**Answer**
+
+The evaluation rules classify a patient as high-risk if:
+
+- PCT ≥ 0.5 ng/mL
+- OR CRP ≥ 5.0 mg/L
+
+---
+
+### 20. What is considered a stable state?
+
+**Answer**
+
+A patient is considered biochemically stable when:
+
+- PCT < 0.5 ng/mL
+- AND CRP < 5.0 mg/L
+
+---
+
+## Section 5 – Medication Engine
+
+### 21. Why automate dosage calculations?
+
+**Answer**
+
+Automated calculations reduce manual errors and ensure consistent weight-based neonatal dosing.
+
+---
+
+### 22. How is Ampicillin calculated?
+
+**Answer**
+
+The protocol uses:
+
+100 mg/kg/day divided every 12 hours.
+
+---
+
+### 23. How is Gentamicin calculated?
+
+**Answer**
+
+The protocol uses:
+
+4 mg/kg/day administered as a single daily dose.
+
+---
+
+### 24. Why use weight-based dosing?
+
+**Answer**
+
+Neonatal medication dosing must be adjusted according to body weight to ensure safety and efficacy.
+
+---
+
+### 25. What is the purpose of renal monitoring?
+
+**Answer**
+
+Renal monitoring helps identify Acute Kidney Injury (AKI) and prevents medication-related toxicity.
+
+---
+
+## Section 6 – Family-Centered Care
+
+### 26. What is Family-Centered Care?
+
+**Answer**
+
+Family-Centered Care is a healthcare approach that actively involves parents and caregivers in neonatal care.
+
+---
+
+### 27. Why include Kangaroo Care?
+
+**Answer**
+
+Kangaroo Care improves thermal regulation, cardiorespiratory stability, breastfeeding success, and parent-infant bonding.
+
+---
+
+### 28. Why include Music Therapy?
+
+**Answer**
+
+Music Therapy may reduce neonatal stress, improve physiological stability, and support neurodevelopment.
+
+---
+
+### 29. How is FCC integrated into the system?
+
+**Answer**
+
+FCC interventions are recorded and incorporated into the AI-generated evaluation.
+
+---
+
+### 30. Why track non-pharmacological interventions?
+
+**Answer**
+
+Clinical outcomes depend on both pharmacological and non-pharmacological care strategies.
+
+---
+
+## Section 7 – Artificial Intelligence
+
+### 31. What is the role of AI in this project?
+
+**Answer**
+
+The AI module generates structured clinical recommendations based on telemetry data and predefined safety rules.
+
+---
+
+### 32. Does AI make diagnoses?
+
+**Answer**
+
+No. The AI system provides decision support and educational recommendations only.
+
+---
+
+### 33. Why use structured outputs?
+
+**Answer**
+
+Structured outputs improve validation, consistency, and downstream processing.
+
+---
+
+### 34. What output format is used?
+
+**Answer**
+
+The system enforces:
+
+- `<RAPORT>`
+- `<MEDICATIE>`
+- `<FCC>`
+
+---
+
+### 35. Why is structured output important?
+
+**Answer**
+
+It enables deterministic validation and automated testing.
+
+---
+
+## Section 8 – Security & Guardrails
+
+### 36. What is prompt injection?
+
+**Answer**
+
+Prompt injection is an attack that attempts to manipulate an AI model into ignoring its intended instructions.
+
+---
+
+### 37. How does the system defend against prompt injection?
+
+**Answer**
+
+The platform treats telemetry as untrusted input and applies strict security rules before AI processing.
+
+---
+
+### 38. What malicious keywords are monitored?
+
+**Answer**
+
+Examples include:
+
+- IGNORE
+- OVERRIDE
+- REVEAL
+- PRINT
+- CLEAN
+
+---
+
+### 39. What happens if an attack is detected?
+
+**Answer**
+
+The malicious instruction is ignored and the clinical evaluation continues safely.
+
+---
+
+### 40. Why are guardrails important?
+
+**Answer**
+
+Guardrails improve reliability, safety, and trustworthiness of AI-generated outputs.
+
+---
+
+## Section 9 – Database & Persistence
+
+### 41. Why did you choose SQLAlchemy instead of raw SQL?
+
+**Answer**
+
+SQLAlchemy provides database abstraction, ORM capabilities, improved maintainability, and cleaner code organization. It allows me to focus on business logic rather than writing repetitive SQL queries.
+
+---
+
+### 42. What are the advantages of using an ORM?
+
+**Answer**
+
+The main advantages are:
+
+- Improved readability
+- Reduced boilerplate code
+- Database portability
+- Easier maintenance
+- Object-oriented data modeling
+
+---
+
+### 43. What is a database model?
+
+**Answer**
+
+A database model is a Python class that represents a database table. Each attribute corresponds to a table column.
+
+---
+
+### 44. Why did you use SQLite during development?
+
+**Answer**
+
+SQLite is lightweight, serverless, easy to configure, and ideal for rapid prototyping and testing.
+
+---
+
+### 45. Could the application use PostgreSQL?
+
+**Answer**
+
+Yes. The persistence layer was designed to be database-agnostic through SQLAlchemy, making migration to PostgreSQL straightforward.
+
+---
+
+### 46. What is Alembic?
+
+**Answer**
+
+Alembic is a database migration tool for SQLAlchemy that tracks and applies schema changes over time.
+
+---
+
+### 47. Why are migrations important?
+
+**Answer**
+
+Migrations ensure that database structures remain consistent across environments and deployments.
+
+---
+
+### 48. What problem did you solve with the reconstructed migration?
+
+**Answer**
+
+The original Alembic revision was missing. I recreated the baseline migration so Alembic could properly track the schema version and maintain migration integrity.
+
+---
+
+### 49. What is schema versioning?
+
+**Answer**
+
+Schema versioning tracks database changes over time and ensures reproducible deployments.
+
+---
+
+### 50. How would you migrate to production?
+
+**Answer**
+
+I would switch the connection string to PostgreSQL, apply Alembic migrations, configure environment variables, and deploy the application through Docker or cloud infrastructure.
+
+---
+
+## Section 10 – Testing & Quality Assurance
+
+### 51. Why is testing important?
+
+**Answer**
+
+Testing improves reliability, prevents regressions, and verifies that the application behaves as expected.
+
+---
+
+### 52. What testing framework did you use?
+
+**Answer**
+
+Pytest.
+
+---
+
+### 53. Why Pytest?
+
+**Answer**
+
+Pytest provides a simple syntax, powerful fixtures, excellent reporting, and strong ecosystem support.
+
+---
+
+### 54. What types of tests exist in the project?
+
+**Answer**
+
+The project contains:
+
+- Database tests
+- AI tests
+- Guardrail tests
+- Telemetry tests
+- Notification tests
+- System tests
+- Prompt injection tests
+
+---
+
+### 55. What is a unit test?
+
+**Answer**
+
+A unit test verifies a single component or function in isolation.
+
+---
+
+### 56. What is an integration test?
+
+**Answer**
+
+An integration test verifies that multiple components work correctly together.
+
+---
+
+### 57. Why test prompt injection?
+
+**Answer**
+
+Prompt injection represents a major security risk in LLM applications. Testing ensures malicious instructions cannot override system behavior.
+
+---
+
+### 58. What indicates a successful test suite?
+
+**Answer**
+
+All tests pass successfully and validate expected behavior under both normal and adversarial conditions.
+
+---
+
+### 59. How many tests does your project execute?
+
+**Answer**
+
+The project currently executes a complete automated test suite including telemetry, database, AI, security, and system validation scenarios.
+
+---
+
+### 60. What would you improve in testing?
+
+**Answer**
+
+I would add coverage reporting, performance testing, and automated cloud deployment validation.
+
+---
+
+## Section 11 – Prompt Engineering & AI Safety
+
+### 61. What is Prompt Engineering?
+
+**Answer**
+
+Prompt Engineering is the process of designing instructions that guide LLM behavior toward predictable and reliable outputs.
+
+---
+
+### 62. Why did you use structured prompts?
+
+**Answer**
+
+Structured prompts reduce ambiguity and improve consistency across AI responses.
+
+---
+
+### 63. Why force XML-style sections?
+
+**Answer**
+
+They enable deterministic validation and simplify downstream parsing.
+
+---
+
+### 64. What are guardrails?
+
+**Answer**
+
+Guardrails are safety mechanisms that constrain model behavior and prevent unsafe outputs.
+
+---
+
+### 65. What is hallucination?
+
+**Answer**
+
+A hallucination occurs when an AI model generates information that is unsupported by the provided data.
+
+---
+
+### 66. How do you reduce hallucinations?
+
+**Answer**
+
+By using strict prompts, deterministic rules, structured outputs, validation tests, and guardrails.
+
+---
+
+### 67. Why does the system classify telemetry into risk states?
+
+**Answer**
+
+Risk classification provides consistent and explainable decision-support recommendations.
+
+---
+
+### 68. What is deterministic logic?
+
+**Answer**
+
+Deterministic logic means the same input always produces the same outcome according to predefined rules.
+
+---
+
+### 69. Why combine AI with deterministic rules?
+
+**Answer**
+
+The combination improves flexibility while maintaining safety and predictability.
+
+---
+
+### 70. Does the AI replace clinicians?
+
+**Answer**
+
+No. The AI acts strictly as a clinical decision-support tool and does not replace professional medical judgment.
+
+---
+
+## Section 12 – Promptfoo & MLOps
+
+### 71. What is Promptfoo?
+
+**Answer**
+
+Promptfoo is an evaluation framework used to test and validate LLM outputs through predefined scenarios and assertions.
+
+---
+
+### 72. Why did you integrate Promptfoo?
+
+**Answer**
+
+To systematically evaluate model behavior, security compliance, multilingual consistency, and output quality.
+
+---
+
+### 73. What is being tested in Promptfoo?
+
+**Answer**
+
+The evaluation suite tests:
+
+- Clinical reasoning
+- Structured outputs
+- Multilingual support
+- Prompt injection resistance
+- Safety compliance
+
+---
+
+### 74. Why disable caching in Promptfoo?
+
+**Answer**
+
+Disabling cache ensures fresh model evaluations for every execution.
+
+---
+
+### 75. Why use maxConcurrency: 1?
+
+**Answer**
+
+To avoid rate-limit errors from the Groq API during evaluation.
+
+---
+
+### 76. What is MLOps?
+
+**Answer**
+
+MLOps is the practice of managing AI systems through automation, monitoring, testing, and deployment workflows.
+
+---
+
+### 77. How does your project demonstrate MLOps?
+
+**Answer**
+
+The project integrates Promptfoo evaluations, automated testing, CI pipelines, and validation workflows.
+
+---
+
+### 78. Why validate AI continuously?
+
+**Answer**
+
+AI behavior can change over time. Continuous validation ensures reliability and safety.
+
+---
+
+### 79. What does the 9-scenario validation matrix verify?
+
+**Answer**
+
+It verifies multilingual consistency, sepsis classification, AKI handling, prompt injection resistance, and stable patient evaluation.
+
+---
+
+### 80. Why is AI evaluation important in healthcare?
+
+**Answer**
+
+Healthcare systems require a higher level of reliability, transparency, and safety than general-purpose applications.
+
+---
+
+## Section 13 – CI/CD, Docker & Production Readiness
+
+### 81. What is CI/CD?
+
+**Answer**
+
+CI/CD stands for Continuous Integration and Continuous Deployment. It automates testing, validation, and deployment processes to improve software quality and delivery speed.
+
+---
+
+### 82. How is CI implemented in your project?
+
+**Answer**
+
+The project uses GitHub Actions to automatically execute code quality checks, Pytest test suites, Promptfoo evaluations, and Docker build validation whenever code is pushed or a pull request is created.
+
+---
+
+### 83. Why use GitHub Actions?
+
+**Answer**
+
+GitHub Actions integrates directly with the repository, provides automation capabilities, and enables continuous quality verification without manual intervention.
+
+---
+
+### 84. What happens when code is pushed to the repository?
+
+**Answer**
+
+The CI pipeline automatically runs Ruff static analysis, Pytest tests, Promptfoo AI evaluations, and Docker image validation.
+
+---
+
+### 85. Why include Ruff in the pipeline?
+
+**Answer**
+
+Ruff performs static code analysis and helps identify code quality issues, style violations, and potential errors before deployment.
+
+---
+
+### 86. What is Docker?
+
+**Answer**
+
+Docker is a containerization platform that packages applications and their dependencies into portable and reproducible environments.
+
+---
+
+### 87. Why containerize the application?
+
+**Answer**
+
+Containerization ensures consistent behavior across development, testing, and production environments.
+
+---
+
+### 88. What is the purpose of the Docker validation job?
+
+**Answer**
+
+The Docker validation job verifies that the application can be successfully packaged into a runnable container image.
+
+---
+
+### 89. What would be required for production deployment?
+
+**Answer**
+
+A production deployment would require PostgreSQL, secure secret management, monitoring, backup strategies, logging, and cloud infrastructure configuration.
+
+---
+
+### 90. How would you scale the application?
+
+**Answer**
+
+I would separate the frontend, API services, AI services, and database components while deploying them using containers and managed cloud services.
+
+---
+
+## Section 14 – Senior Engineer Questions
+
+### 91. Why did you choose rule-based thresholds instead of a machine learning classifier?
+
+**Answer**
+
+For this project, explainability and deterministic behavior were priorities. Clinical thresholds provide transparent and auditable decision logic suitable for educational decision-support workflows.
+
+---
+
+### 92. What are the limitations of the current system?
+
+**Answer**
+
+The system is an educational clinical decision-support platform and does not perform real-time hospital integration, live EHR connectivity, or clinically validated diagnostic predictions.
+
+---
+
+### 93. What would you improve if given six more months?
+
+**Answer**
+
+I would implement FastAPI services, PostgreSQL deployment, authentication, audit logging, monitoring dashboards, and advanced ML-based risk prediction models.
+
+---
+
+### 94. Why not use FastAPI instead of Streamlit?
+
+**Answer**
+
+Streamlit allowed rapid prototyping of the complete workflow. In a production environment, I would likely separate the backend into FastAPI services while keeping a dedicated frontend interface.
+
+---
+
+### 95. Why is explainability important in healthcare AI?
+
+**Answer**
+
+Healthcare professionals must understand how recommendations are generated. Explainability improves trust, transparency, and clinical accountability.
+
+---
+
+### 96. How do you handle AI reliability concerns?
+
+**Answer**
+
+The system combines deterministic rules, guardrails, structured outputs, automated testing, Promptfoo validation, and human oversight.
+
+---
+
+### 97. What was the most challenging technical issue during development?
+
+**Answer**
+
+One challenge involved maintaining migration consistency and reconstructing the Alembic baseline revision to ensure database versioning integrity.
+
+---
+
+### 98. What did this project teach you?
+
+**Answer**
+
+The project strengthened my skills in Python development, database design, testing, AI integration, MLOps workflows, cybersecurity concepts, and software architecture.
+
+---
+
+### 99. What makes this project unique?
+
+**Answer**
+
+The project combines neonatal clinical expertise with modern AI engineering practices, integrating telemetry monitoring, Family-Centered Care, AI safety, Promptfoo validation, and CI/CD automation within a single platform.
+
+---
+
+### 100. Why should we hire you?
+
+**Answer**
+
+I bring a unique combination of healthcare expertise, software engineering skills, and AI development experience. My background allows me to understand real-world clinical workflows while building reliable, tested, and secure software solutions. I am highly motivated, adaptable, and committed to continuous learning and professional growth.
+
+---
+
+# Bonus Questions – Frequently Asked by Recruiters
+
+### What was your personal contribution to this project?
+
+**Answer**
+
+I designed, developed, tested, documented, and validated the platform. This included architecture design, Python development, database management, AI integration, Promptfoo evaluation, documentation, and CI/CD configuration.
+
+---
+
+### How does this project relate to the role you are applying for?
+
+**Answer**
+
+The project demonstrates practical experience in Python development, AI integration, testing, software architecture, databases, CI/CD, and problem-solving. These skills are directly relevant to Applied AI Engineer, Machine Learning Engineer, Data Engineer, and Python Backend Developer roles.
+
+---
+
+### What are you most proud of?
+
+**Answer**
+
+I am most proud of successfully combining my clinical experience with modern software engineering and AI technologies to create a realistic and technically comprehensive healthcare platform.
+
+---
+
+# Final Interview Closing Statement
+
+**Answer**
+
+Sepsis Monitor AI represents my transition from healthcare into software engineering and artificial intelligence. Through this project, I demonstrated the ability to design modular systems, implement database architectures, integrate AI safely, automate testing and validation, and apply engineering best practices. Beyond the technical implementation, the project reflects my ability to bridge domain expertise and technology to solve meaningful real-world problems.
