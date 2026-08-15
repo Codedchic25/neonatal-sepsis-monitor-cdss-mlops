@@ -1521,25 +1521,10 @@ This separation improves:
 
 ---
 
-## 12.3 SQLAlchemy ORM Layer
+12.3 SQLAlchemy ORM & Schema Governance
 
-Primary Technology:
-
-```text
-SQLAlchemy ORM
-```
-
-Purpose:
-
-Provide object-oriented interaction
-with relational database entities.
-
-Benefits:
-
-- Reduced SQL boilerplate
-- Improved maintainability
-- Database abstraction
-- Migration compatibility
+Primary Subsystems: Backend Services, Schema Versioning, Database Testing.
+The platform design isolates relational data modeling inside dedicated infrastructure modules using SQLAlchemy ORM and Alembic Migrations to systematically govern database schema variations over time. This separation ensures enterprise-grade database portability (seamlessly scaling from SQLite to PostgreSQL) and rigorous migration testing pipelines.
 
 ---
 
@@ -1585,22 +1570,9 @@ The telemetry table stores:
 
 ---
 
-## 12.6 SQLite Development Environment
-
-Development database:
-
-```text
-sepsis_neonatal.db
-```
-
-SQLite was selected because it provides:
-
-- zero configuration
-- fast startup
-- local portability
-- simplified testing
-
-Ideal for educational and demonstration environments.
+12.6 Presentation Layer Direct Persistence (Streamlit Reactive Subsystem)
+Primary Script: app.py
+To maximize transactional performance and eliminate execution latency during the Streamlit web-app lifecycle reruns, the presentation layer utilizes high-speed, direct connections through Python's native sqlite3 driver. This intentional hybrid approach decouples the active telemetry stream interface from full ORM abstraction layers. It permits immediate row insertions (INSERT INTO telemetry) and real-time historical trend queries (SELECT * FROM telemetry) directly on the unified sepsis_neonatal.db engine without blocking the main reactive rendering threads.
 
 ---
 
@@ -1851,17 +1823,9 @@ and ends with report generation.
 
 ---
 
-## 14.2 Step 1 — Clinical Configuration
-
-The clinician selects:
-
-- Language
-- Clinical Role
-- Gestational Profile
-- Weight
-- Renal Status
-
-These values define the clinical context.
+14.2 Step 1 — Clinical Hierarchy & Context Configuration
+The clinician configures the monitoring environment state variables using the dashboard's left-hand sidebar control panels. This step defines the selected system language constants, infant gestational profiles, dynamic weight parameters, and maps active clinical authorization levels across 5 distinct professional figures:
+Chief of Department / Șef de Secție (Full operational validation triggers + Severe AKI/Anuria override access)Attending Physician / Medic Echipa Secției (Empiric therapeutic validation + Mild AKI tracking)On-Call Physician / Medic de Gardă (Acute escalation metrics + Intermittent dosing verification)Neonatologist Resident (Training-level telemetry interpretation + Medication framework monitoring)NICU Senior Nurse (Routine physiological baseline tracking; high-risk administrative configurations hidden)
 
 ---
 

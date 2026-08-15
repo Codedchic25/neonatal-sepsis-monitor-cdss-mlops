@@ -26,12 +26,9 @@ The project centralizes neonatal telemetry monitoring, inflammatory biomarker ev
 
 ---
 
-### 4. Who are the intended users?
-
-**Answer**
-
-The primary users are neonatal nurses, neonatologists, residents, department chiefs, and healthcare professionals working in Neonatal Intensive Care Units (NICU).
-
+4. Who are the intended users?
+Answer
+The platform models the complete operational medical hierarchy of a Neonatal Intensive Care Unit (NICU). It implements a simulated Role-Based Access Control (RBAC) architecture that restricts user interface access based on 5 professional profiles: Chief of Department (Șef de Secție), Attending Physicians, On-Call Physicians, Neonatologist Residents, and NICU Senior Nurses.
 ---
 
 ### 5. Why is neonatal sepsis important?
@@ -44,11 +41,9 @@ Neonatal sepsis remains one of the leading causes of neonatal morbidity and mort
 
 ## Section 2 – Architecture
 
-### 6. Describe the system architecture.
-
-**Answer**
-
-The architecture consists of a Streamlit presentation layer, telemetry processing modules, risk scoring services, AI decision-support services, SQLAlchemy ORM models, SQLite persistence, Alembic migrations, Promptfoo validation, and CI/CD pipelines.
+6. Describe the system architecture.
+Answer
+The application implements a decoupled, safety-critical hybrid architecture. It integrates a Streamlit presentation layer, an operational telemetry framework, deterministic rule engines, an isolated AI analysis wrapper leveraging Groq/Llama-3.1, a transactional persistence infrastructure utilizing native SQLite data layers for real-time dashboard responsiveness, and an underlying SQLAlchemy/Alembic backend module blueprint ensuring schema portability to production-ready PostgreSQL environments.
 
 ---
 
@@ -126,19 +121,9 @@ Streamlit reruns the application script whenever a user interacts with a widget.
 
 ---
 
-### 15. What dashboard sections are available?
-
-**Answer**
-
-- Configuration Panel
-- Telemetry Monitoring
-- Risk Assessment
-- Medication Calculator
-- AI Clinical Analysis
-- Family-Centered Care Evaluation
-- MLOps Validation
-- PDF Reporting
-
+15. What dashboard sections are available?
+Answer
+Sidebar Configuration Panel (Dynamic Language Selection, 5 Clinical RBAC Positions, Gestational and FCC trackers)Real-Time Vital Parameters Grid (Colorized cardiovascular, thermal, and respiratory sensors)Individualized Dose Calculation Panel (Weight-based deterministic protocol layout)Integrated Audio Neurodevelopmental Player (Womb heartbeat sensory loop simulation)Active AI Decision Support Tabs (Parsing separated <RAPORT>, <MEDICATIE>, and <FCC> blocks)Automated MLOps Validation Panel (On-demand live Promptfoo evaluation suites)Extensible PDF Document Service (Persisted clinical report extraction gateway)
 ---
 
 ## Section 4 – Clinical Workflow
@@ -380,12 +365,9 @@ Guardrails improve reliability, safety, and trustworthiness of AI-generated outp
 
 ## Section 9 – Database & Persistence
 
-### 41. Why did you choose SQLAlchemy instead of raw SQL?
-
-**Answer**
-
-SQLAlchemy provides database abstraction, ORM capabilities, improved maintainability, and cleaner code organization. It allows me to focus on business logic rather than writing repetitive SQL queries.
-
+41. Why did you choose SQLAlchemy instead of raw SQL?
+Answer
+I designed a hybrid persistence model to leverage the unique advantages of both technologies. For background database operations, data schema tests, and multi-environment portability pipelines, I embedded a structured SQLAlchemy ORM and Alembic migration tracking network. However, inside the reactive Streamlit application loop (app.py), I intentionally coupled the UI state persistence directly to raw SQL routines using Python's native sqlite3 driver. Streamlit reruns the entire execution script upon widget manipulation; executing raw SQL strings eliminates ORM transaction setup overhead, guarantees negligible rendering latency, and ensures high-frequency telemetry commits occur directly on the unified engine without blocking the presentation lifecycle.
 ---
 
 ### 42. What are the advantages of using an ORM?
@@ -921,3 +903,8 @@ I am most proud of successfully combining my clinical experience with modern sof
 **Answer**
 
 Sepsis Monitor AI represents my transition from healthcare into software engineering and artificial intelligence. Through this project, I demonstrated the ability to design modular systems, implement database architectures, integrate AI safely, automate testing and validation, and apply engineering best practices. Beyond the technical implementation, the project reflects my ability to bridge domain expertise and technology to solve meaningful real-world problems.
+
+### 101. How does the system handle qualitative clinical features like Family-Centered Care (FCC) without introducing non-deterministic risks?
+
+**Answer**
+The platform applies an isolated hybrid pipeline. Qualitative attributes (Kangaroo Care and Music Therapy tracking states) are recorded via deterministic widgets and transmitted to the LLM solely as contextual grounding variables inside highly structured, immutable XML-style prompt parameters. Crucially, the system features a downstream **Clinical FCC Correlation Logic** layer built outside the generative network: if telemetry drops below systemic stability thresholds or severe AKI states are registered, a deterministic code function intercepts the payload and appends a critical medical mandate to the generated PDF data contract. This guarantees that non-pharmacological recommendations are dynamically adapted to acute physiological emergencies under predictable, auditable control loops, preventing AI output hallucinations from compromising clinical protocols.
