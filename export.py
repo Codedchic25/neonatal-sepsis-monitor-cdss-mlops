@@ -44,11 +44,14 @@ def draw_biomarker_chart(df_history):
         )
         return drawing
 
-    # Format dataframe data fields explicitly for ReportLab's multi-series plot requirements [(x1,y1), (x2,y2)...]
+    # Format dataframe data fields explicitly for ReportLab's multi-series plot requirements
     crp_data = []
     pct_data = []
 
-    for idx, row in df_history.iterrows():
+    # Reset index to ensure chronological numeric alignment from 0 onwards
+    df_clean = df_history.reset_index(drop=True)
+
+    for idx, row in df_clean.iterrows():
         # X axis can be mapped chronologically over numerical indices for clean scaling
         crp_data.append((idx, float(row["crp"])))
         pct_data.append((idx, float(row["pct"])))
@@ -250,29 +253,7 @@ def generate_clinical_pdf(file_path, metadata, parsed_xml_data, df_history=None)
     story.append(
         Paragraph(parsed_xml_data.get("raport", "No analysis tracked."), ai_box_style)
     )
-    story.append(Spacer(1, 8))
+    story.append(Spacer(1, 10))
 
-    # Medication Guidelines Block
-    story.append(
-        Paragraph("<b>[Individualized Medication & Dose Architecture]</b>", body_style)
-    )
-    story.append(
-        Paragraph(
-            parsed_xml_data.get("medicatie", "No protocol execution registered."),
-            ai_box_style,
-        )
-    )
-    story.append(Spacer(1, 8))
-
-    # Family-Centered Care Summary Block
-    story.append(
-        Paragraph("<b>[Family-Centered Care (FCC) Co-Validation]</b>", body_style)
-    )
-    story.append(
-        Paragraph(
-            parsed_xml_data.get("fcc", "No FCC metric summary loaded."), ai_box_style
-        )
-    )
-
-    # Execute document builder compilation
+    # Build the final document
     doc.build(story)
